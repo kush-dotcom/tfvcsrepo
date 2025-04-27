@@ -71,7 +71,7 @@ resource "aws_security_group_rule" "main" {
 
 resource "aws_key_pair" "sre" {
   key_name   = "mykey"
-  public_key = file("./.ssh/aws.pub")
+  public_key = file("./aws.pub")
 }
 
 resource "aws_instance" "this" {
@@ -80,25 +80,7 @@ resource "aws_instance" "this" {
   key_name        = aws_key_pair.sre.key_name
   security_groups = [aws_security_group.main.name]
 
-  provisioner "remote-exec" { //List of strings.Multiple commands can be used
-    inline = [
-      "mkdir /home/ubuntu/ari",
-      "echo 'hello' >> /home/ubuntu/ari/ari.txt"
-    ]
-  }
-  /*provisioner "file" {
-    source      = "./publicip.txt"
-    destination = "/home/ubuntu/publicip.txt"
-  }
-  */
-  connection {
-    type        = "ssh"
-    user        = "ubuntu"
-    private_key = file("./.ssh/aws") // Use the private key here but not the aws.pub one
-    host        = self.public_ip
-  }
-
-}
+ 
 // We will see the publicip.txt file which is created in the left side of DAY11
 output "public_ip" {
   value = aws_instance.this.public_ip
