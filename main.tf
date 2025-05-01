@@ -11,6 +11,7 @@ provider "aws" {
   region = "us-west-1" //Here the resources will get created
 }
 
+/*
 data "aws_ami" "this" {
   owners      = ["099720109477"]
   most_recent = true
@@ -84,3 +85,4 @@ resource "aws_instance" "this" {
 output "public_ip" {
   value = aws_instance.this.public_ip
 }
+*/
